@@ -111,14 +111,14 @@ int main()
     
     //create a ubo to store pbr texture's handle id
     unsigned int uniformBlockIndexPbrMaterial = glGetUniformBlockIndex(pbrShader.ID, "pbrMaterial");
-    glUniformBlockBinding(pbrShader.ID, uniformBlockIndexPbrMaterial, 0);
+    glUniformBlockBinding(pbrShader.ID, uniformBlockIndexPbrMaterial, 11);
     unsigned int pbrMaterialUBO;
     glGenBuffers(1, &pbrMaterialUBO);
     glBindBuffer(GL_UNIFORM_BUFFER, pbrMaterialUBO);
-    glBufferData(GL_UNIFORM_BUFFER, 5 * sizeof(GLuint), NULL, GL_STATIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, 6 * sizeof(GLuint64), NULL, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     // define the range of the buffer that links to a uniform binding point
-    glBindBufferRange(GL_UNIFORM_BUFFER, 0, pbrMaterialUBO, 0, 5 * sizeof(GLuint));
+    glBindBufferRange(GL_UNIFORM_BUFFER, 11, pbrMaterialUBO, 0, 6 * sizeof(GLuint64));
 
     //creat matrices ubo
     //get the relevant block indices
@@ -209,11 +209,11 @@ int main()
     };
     glm::vec3 lightColors[] = {
         glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(300.0f, 300.0f, 300.0f)
+        glm::vec3(0.0f, 300.0f, 0.0f),
+        glm::vec3(0.0f, 0.5f, 600.0f),
+        glm::vec3(600.0f, 0.0f, 0.0f),
+        glm::vec3(0.5f, 0.5f, 300.0f),
+        glm::vec3(0.2f, 300.0f, 0.6f)
 
     };
     int nrRows = 7;
@@ -551,6 +551,7 @@ void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMa
     //glBindTexture(GL_TEXTURE_2D, aoMap);
     
     /* ubo upload
+    */
     glBindBuffer(GL_UNIFORM_BUFFER, ubo);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(GLuint64), &albedoMap);
     glBufferSubData(GL_UNIFORM_BUFFER, 1 * sizeof(GLuint64), sizeof(GLuint64), &normalMap);
@@ -558,15 +559,16 @@ void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMa
     glBufferSubData(GL_UNIFORM_BUFFER, 3 * sizeof(GLuint64), sizeof(GLuint64), &roughnessMap);
     glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(GLuint64), sizeof(GLuint64), &aoMap);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    */
+    
     
     //bindless upload
+    /*
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "albedoMap"), albedoMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "normalMap"), normalMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "metallicMap"), metallicMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "roughnessMap"), roughnessMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "aoMap"), aoMap);
-
+    */
     float px = circleR * cos(theta + radian);
     float py = circleR * sin(theta + radian);
 
@@ -616,14 +618,25 @@ void renderPbrModel(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap
     //glActiveTexture(GL_TEXTURE7);
     //glBindTexture(GL_TEXTURE_2D, aoMap);
 
+    glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(GLuint64), &albedoMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 1 * sizeof(GLuint64), sizeof(GLuint64), &normalMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(GLuint64), sizeof(GLuint64), &metallicMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 3 * sizeof(GLuint64), sizeof(GLuint64), &roughnessMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(GLuint64), sizeof(GLuint64), &aoMap);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    /*
+    
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "albedoMap"), albedoMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "normalMap"), normalMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "metallicMap"), metallicMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "roughnessMap"), roughnessMap);
     glUniformHandleui64ARB(glGetUniformLocation(pbrShader.ID, "aoMap"), aoMap);
-    
-    float px = circleR * cos(theta + radian);
-    float py = circleR * sin(theta + radian);
+    */
+
+    float px = circleR * cos(theta - radian);
+    float py = circleR * sin(theta - radian);
     model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
 
     pbrShader.setMat4("model", model);

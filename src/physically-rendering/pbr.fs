@@ -1,24 +1,25 @@
 #version 460 core
+#extension GL_ARB_bindless_texture : require
 out vec4 FragColor;
 in vec2 TexCoords;
 in vec3 WorldPos;
 in vec3 Normal;
 
 // material parameters
-uniform sampler2D albedoMap;
-uniform sampler2D normalMap;
-uniform sampler2D metallicMap;
-uniform sampler2D roughnessMap;
-uniform sampler2D aoMap;
+//uniform sampler2D albedoMap;
+//uniform sampler2D normalMap;
+//uniform sampler2D metallicMap;
+//uniform sampler2D roughnessMap;
+//uniform sampler2D aoMap;
 
-//layout (std140) uniform pbrMaterial
-//{
-//    sampler2D albedoMap;
-//    sampler2D normalMap;
-//    sampler2D metallicMap;
-//    sampler2D roughnessMap;
-//    sampler2D aoMap;
-//};
+layout (std140) uniform pbrMaterial
+{
+    sampler2D albedoMap;
+    sampler2D normalMap;
+    sampler2D metallicMap;
+    sampler2D roughnessMap;
+    sampler2D aoMap;
+};
 
 // IBL
 uniform samplerCube irradianceMap;

@@ -84,6 +84,7 @@ public:
             Position.y  +=  velocity;
         if (direction == DOWNING)
             Position.y  -= velocity;
+       
     }
 
     // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
