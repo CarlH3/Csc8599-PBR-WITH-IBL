@@ -26,7 +26,7 @@ void renderSphere();
 void renderCube();
 void renderQuad();
 void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, float circleR, float theta, float radian, Shader& pbrShader);
-void renderPbrModel(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, float circleR, float theta, float radian, Shader& pbrShader, Model inputModel, glm::mat4 model);
+void renderPbrModel(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, unsigned int brdfAvgMap, unsigned int brdfMuMap , float circleR, float theta, float radian, Shader& pbrShader, Model inputModel, glm::mat4 model);
 
 // settings
 const unsigned int SCR_WIDTH = 1920;
@@ -103,6 +103,8 @@ int main()
     pbrShader.setInt("irradianceMap", 0);
     pbrShader.setInt("prefilterMap", 1);
     pbrShader.setInt("brdfLUT", 2);
+    //pbrShader.setInt("brdfAvgMap", 3);
+    //pbrShader.setInt("brdfMuMap", 4);
     //pbrShader.setInt("albedoMap", 3);
     //pbrShader.setInt("normalMap", 4);
     //pbrShader.setInt("metallicMap", 5);
@@ -116,10 +118,10 @@ int main()
     unsigned int pbrMaterialUBO;
     glGenBuffers(1, &pbrMaterialUBO);
     glBindBuffer(GL_UNIFORM_BUFFER, pbrMaterialUBO);
-    glBufferData(GL_UNIFORM_BUFFER, 6 * sizeof(GLuint64), NULL, GL_STATIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, 8 * sizeof(GLuint64), NULL, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     // define the range of the buffer that links to a uniform binding point
-    glBindBufferRange(GL_UNIFORM_BUFFER, 11, pbrMaterialUBO, 0, 6 * sizeof(GLuint64));
+    glBindBufferRange(GL_UNIFORM_BUFFER, 11, pbrMaterialUBO, 0, 8 * sizeof(GLuint64));
 
     //creat matrices ubo
     //get the relevant block indices
@@ -198,6 +200,10 @@ int main()
     Model visor(FileSystem::getPath("resources/objects/free-sci-fi-helmet/visor01.ply"));
     Model bakemyscan(FileSystem::getPath("resources/objects/bakemyscan/bakemyscan.ply"));
 
+    // init Eavg and Emu
+    int brdfEavgMap = loadTexture(FileSystem::getPath("resources/textures/kulla-conty/GGX_Eavg_LUT.png").c_str());
+    int brdfEmuMap = loadTexture(FileSystem::getPath("resources/textures/kulla-conty/GGX_E_LUT.png").c_str());
+
     // lights
     // ------init lights position and color
     glm::vec3 lightPositions[] = {
@@ -210,11 +216,16 @@ int main()
     };
     glm::vec3 lightColors[] = {
         glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(0.0f, 300.0f, 0.0f),
+        glm::vec3(300.0f, 300.0f, 300.0f),
+        glm::vec3(300.0f, 300.0f, 300.0f),
+        glm::vec3(300.0f, 300.0f, 300.0f),
+        glm::vec3(300.0f, 300.0f, 300.0f),
+        glm::vec3(300.0f, 300.0f, 300.0f)
+      /*  glm::vec3(0.0f, 300.0f, 0.0f),
         glm::vec3(0.0f, 0.5f, 600.0f),
         glm::vec3(600.0f, 0.0f, 0.0f),
         glm::vec3(0.5f, 0.5f, 300.0f),
-        glm::vec3(0.2f, 300.0f, 0.6f)
+        glm::vec3(0.2f, 300.0f, 0.6f)*/
 
     };
     int nrRows = 7;
@@ -470,15 +481,15 @@ int main()
 
         model = glm::mat4(1.0f);
         model = glm::scale(model, glm::vec3(2.6, 2.6, 2.6));
-        renderPbrModel(pbrMaterialUBO,modelAlbedoMap, modelNormalMap, modelMetallicMap, modelRoughnessMap, modelAoMapModel, circleR, theta[8], radian, pbrShader, head, model);
-        renderPbrModel(pbrMaterialUBO,modelAlbedoMap2, modelNormalMap2, modelMetallicMap2, modelRoughnessMap2, modelAoMapModel2, circleR, theta[8], radian, pbrShader, visor, model);
+        renderPbrModel(pbrMaterialUBO,modelAlbedoMap, modelNormalMap, modelMetallicMap, modelRoughnessMap, modelAoMapModel, brdfEavgMap, brdfEmuMap, circleR, theta[8], radian, pbrShader, head, model);
+        renderPbrModel(pbrMaterialUBO,modelAlbedoMap2, modelNormalMap2, modelMetallicMap2, modelRoughnessMap2, modelAoMapModel2, brdfEavgMap, brdfEmuMap, circleR, theta[8], radian, pbrShader, visor, model);
         //renderPbrModel(modelAlbedoMap, modelNormalMap, modelMetallicMap, modelRoughnessMap, modelAoMapModel, pbrShader, head, model);
         //renderPbrModel(modelAlbedoMap2, modelNormalMap2, modelMetallicMap2, modelRoughnessMap2, modelAoMapModel2, pbrShader, visor, model);
 
         model = glm::mat4(1.0f);       
         model = glm::translate(model, glm::vec3(10, 0, 0));
         model = glm::scale(model, glm::vec3(9, 9, 9));
-        renderPbrModel(pbrMaterialUBO,modelAlbedoMap3, modelNormalMap3, modelMetallicMap3, modelRoughnessMap3, modelAoMapModel3, circleR, theta[0], radian, pbrShader, bakemyscan, model);
+        renderPbrModel(pbrMaterialUBO,modelAlbedoMap3, modelNormalMap3, modelMetallicMap3, modelRoughnessMap3, modelAoMapModel3, brdfEavgMap, brdfEmuMap, circleR, theta[0], radian, pbrShader, bakemyscan, model);
         //renderPbrModel(modelAlbedoMap3, modelNormalMap3, modelMetallicMap3, modelRoughnessMap3, modelAoMapModel3, pbrShader, bakemyscan, model);
 
       
@@ -605,7 +616,7 @@ renderSphere();
 }
 */
 
-void renderPbrModel(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, float circleR, float theta, float radian, Shader& pbrShader, Model inputModel, glm::mat4 model)
+void renderPbrModel(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, unsigned int brdfAvgMap, unsigned int brdfMuMap, float circleR, float theta, float radian, Shader& pbrShader, Model inputModel, glm::mat4 model)
 {
     // pbr texture
     //glActiveTexture(GL_TEXTURE3);
@@ -625,6 +636,8 @@ void renderPbrModel(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(GLuint64), sizeof(GLuint64), &metallicMap);
     glBufferSubData(GL_UNIFORM_BUFFER, 3 * sizeof(GLuint64), sizeof(GLuint64), &roughnessMap);
     glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(GLuint64), sizeof(GLuint64), &aoMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 5 * sizeof(GLuint64), sizeof(GLuint64), &brdfAvgMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 6 * sizeof(GLuint64), sizeof(GLuint64), &brdfMuMap);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     
     /*

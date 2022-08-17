@@ -19,6 +19,8 @@ layout (std140) uniform pbrMaterial
     sampler2D metallicMap;
     sampler2D roughnessMap;
     sampler2D aoMap;
+    sampler2D brdfAvgMap;
+    sampler2D brdfMuMap;
 };
 
 // IBL
@@ -106,6 +108,27 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 
 }   
+//-----------------------------------------------------------------------------
+vec3 AverageFresnel(vec3 r, vec3 g)
+{
+    return vec3(0.087237) + 0.0230685*g - 0.0864902*g*g + 0.0774594*g*g*g
+    + 0.782654*r - 0.136432*r*r + 0.278708*r*r*r
+    + 0.19744*g*r + 0.0360605*g*g*r - 0.2586*g*r*r;
+}
+
+vec3 MultiScatterBRDF(float NdotL, float NdotV,vec3 F0,vec3 albedo,float roughness)
+{
+
+    vec3 E_o = texture2D(brdfMuMap, vec2(NdotL, roughness)).xyz;
+    vec3 E_i = texture2D(brdfMuMap, vec2(NdotV, roughness)).xyz;
+
+    vec3 E_avg = texture2D(brdfAvgMap, vec2(0, roughness)).xyz;
+    vec3 F_avg = AverageFresnel(albedo, F0);
+
+    vec3 fms = (( 1.0- E_o) * ( 1.0 - E_i)) / (PI * (1.0  - E_avg));
+    vec3 fadd = F_avg * E_avg / ( 1.0 - F_avg*( 1.0 - E_avg));
+    return fadd * fms;
+}
 // ----------------------------------------------------------------------------
 void main()
 {
@@ -121,6 +144,7 @@ void main()
  
     vec3 F0 = vec3(0.04); 
     F0 = mix(F0, albedo, metallic);
+    float NdotV = max(dot(N,V),0.0);
 
     // calculate integral
     vec3 Lo = vec3(0.0);
@@ -149,7 +173,8 @@ void main()
         vec3 kD = vec3(1.0) - kS;
         kD *= 1.0-metallic;	                
         float NdotL = max(dot(N, L), 0.0);        
-        Lo += (kD * albedo / PI + specular) * radiance * NdotL; 
+        vec3 Fms = MultiScatterBRDF(NdotL, NdotV,F0,albedo,roughness);
+        Lo += (kD * albedo / PI + specular + Fms) * radiance * NdotL; 
     }   
     
     vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
@@ -164,11 +189,14 @@ void main()
     const float MAX_REFLECTION_LOD = 4.0;
     vec3 prefilteredColor = textureLod(prefilterMap, R,  roughness * MAX_REFLECTION_LOD).rgb;    
     vec2 brdf  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
-    vec3 specular = prefilteredColor * (F * brdf.x + brdf.y);
+    vec3 Fms = MultiScatterBRDF(1.0, NdotV,F0,albedo,roughness);
+    vec3 specular = prefilteredColor * (F * brdf.x + brdf.y + Fms);
 
     vec3 ambient = (kD * diffuse + specular) * ao;
     
     vec3 color = ambient + Lo;
+
+    color = clamp(color,0.0,1.0);
 
     // HDR tonemapping
     color = color / (color + vec3(1.0));
