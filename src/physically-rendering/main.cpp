@@ -25,7 +25,7 @@ unsigned int loadTexture(const char* path);
 void renderSphere();
 void renderCube();
 void renderQuad();
-void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, float circleR, float theta, float radian, Shader& pbrShader);
+void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, unsigned int brdfAvgMap, unsigned int brdfMuMap, float circleR, float theta, float radian, Shader& pbrShader);
 void renderPbrModel(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, unsigned int brdfAvgMap, unsigned int brdfMuMap , float circleR, float theta, float radian, Shader& pbrShader, Model inputModel, glm::mat4 model);
 
 // settings
@@ -215,9 +215,9 @@ int main()
         glm::vec3(-10.0f, 0.0f, 15.0f),
     };
     glm::vec3 lightColors[] = {
-        glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(300.0f, 300.0f, 300.0f),
-        glm::vec3(300.0f, 300.0f, 300.0f),
+        glm::vec3(0.0f, 300.0f, 0.0f),
+        glm::vec3(300.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 300.0f),
         glm::vec3(300.0f, 300.0f, 300.0f),
         glm::vec3(300.0f, 300.0f, 300.0f),
         glm::vec3(300.0f, 300.0f, 300.0f)
@@ -496,7 +496,7 @@ int main()
 
         for (int i = 0; i < sphereNum; i++)
         {
-            renderPbrSphere(pbrMaterialUBO, sphereMap[i][0], sphereMap[i][1], sphereMap[i][2], sphereMap[i][3], sphereMap[i][4], circleR, theta[i], radian, pbrShader);
+            renderPbrSphere(pbrMaterialUBO, sphereMap[i][0], sphereMap[i][1], sphereMap[i][2], sphereMap[i][3], sphereMap[i][4], brdfEavgMap, brdfEmuMap, circleR, theta[i], radian, pbrShader);
             //renderPbrSphere(sphereMap[i][0], sphereMap[i][1], sphereMap[i][2], sphereMap[i][3], sphereMap[i][4], circleR, theta[i], radian, pbrShader);
         }
 
@@ -547,7 +547,7 @@ int main()
     return 0;
 }
 
-void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, float circleR, float theta, float radian, Shader& pbrShader)
+void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMap, unsigned int metallicMap, unsigned int roughnessMap, unsigned int aoMap, unsigned int brdfAvgMap, unsigned int brdfMuMap, float circleR, float theta, float radian, Shader& pbrShader)
 {
     // pbr texture
     // old way
@@ -570,6 +570,8 @@ void renderPbrSphere(GLuint64 ubo, unsigned int albedoMap, unsigned int normalMa
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(GLuint64), sizeof(GLuint64), &metallicMap);
     glBufferSubData(GL_UNIFORM_BUFFER, 3 * sizeof(GLuint64), sizeof(GLuint64), &roughnessMap);
     glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(GLuint64), sizeof(GLuint64), &aoMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 5 * sizeof(GLuint64), sizeof(GLuint64), &brdfAvgMap);
+    glBufferSubData(GL_UNIFORM_BUFFER, 6 * sizeof(GLuint64), sizeof(GLuint64), &brdfMuMap);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     
     

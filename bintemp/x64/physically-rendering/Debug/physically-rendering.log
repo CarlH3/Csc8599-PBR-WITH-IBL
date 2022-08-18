@@ -1,25 +1,24 @@
 ﻿  main.cpp
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\include\learnopengl\mesh.h(88,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(390,31): warning C4244: 'initializing': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(391,32): warning C4244: 'initializing': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(447,35): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(455,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(480,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(567,37): warning C4244: 'argument': conversion from 'GLuint64' to 'GLuint', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(633,37): warning C4244: 'argument': conversion from 'GLuint64' to 'GLuint', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(684,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(710,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(711,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(715,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(716,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(718,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(719,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(726,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(748,39): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(786,36): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(813,57): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(815,57): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(817,57): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\src\physically-rendering\main.cpp(931,27): warning C4244: 'initializing': conversion from 'GLuint64' to 'unsigned int', possible loss of data
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  physically-rendering.vcxproj -> C:\Users\c0024547\graphics-algorithm-master\graphics-algorithm-master\physically-rendering\bin\x64\Debug\physically-rendering.exe
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\include\learnopengl\mesh.h(88,1): warning C4267: “参数”: 从“size_t”转换到“GLsizei”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(390,31): warning C4244: “初始化”: 从“double”转换到“unsigned int”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(391,32): warning C4244: “初始化”: 从“double”转换到“unsigned int”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(447,35): warning C4305: “初始化”: 从“double”到“float”截断
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(455,28): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(480,22): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(567,37): warning C4244: “参数”: 从“GLuint64”转换到“GLuint”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(635,37): warning C4244: “参数”: 从“GLuint64”转换到“GLuint”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(686,23): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(712,17): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(713,17): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(717,19): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(718,19): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(720,13): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(721,13): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(728,31): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(750,39): warning C4305: “初始化”: 从“double”到“float”截断
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(788,36): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(815,57): warning C4244: “参数”: 从“float”转换到“GLsizei”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(817,57): warning C4244: “参数”: 从“float”转换到“GLsizei”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(819,57): warning C4244: “参数”: 从“float”转换到“GLsizei”，可能丢失数据
+G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\src\physically-rendering\main.cpp(933,27): warning C4244: “初始化”: 从“GLuint64”转换到“unsigned int”，可能丢失数据
+  physically-rendering.vcxproj -> G:\Pilot\Pilot\PBR\Csc8599-PBR-WITH-IBL\bin\x64\Debug\physically-rendering.exe
