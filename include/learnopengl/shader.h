@@ -171,9 +171,9 @@ private:
 
     GLint GetUniformLocation(const std::string& name) const
     {
-        if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
-            return m_UniformLocationCache[name];
-
+        auto locationSearch = m_UniformLocationCache.find(name);
+        if (locationSearch != m_UniformLocationCache.end())
+            return locationSearch->second; // locationSearch->first is the key (name) and locationSearch->second is the value
         GLint location = glGetUniformLocation(ID, name.c_str());
         m_UniformLocationCache[name] = location;
         return location;
